@@ -1,0 +1,27 @@
+[
+  {
+    "name": "移动签到-每日主脚本",
+    "command": "python3 cmcc_sign.py --tasks --games --wed --delay 1800",
+    "schedule": "23 8 * * *"
+  },
+  {
+    "name": "移动签到-周三充值日秒杀",
+    "command": "python3 cmcc_wed.py --seckill",
+    "schedule": "55 7 * * 3"
+  },
+  {
+    "name": "移动签到-评价有礼",
+    "command": "python3 cmcc_rate.py --exchange",
+    "schedule": "17 9 * * 1"
+  },
+  {
+    "name": "移动签到-假期限时秒杀",
+    "command": "python3 cmcc_seckill.py",
+    "schedule": "0 11 * * *"
+  },
+  {
+    "name": "移动签到-话费余额查询",
+    "command": "python3 cmcc_fee.py",
+    "schedule": "30 9 * * *"
+  }
+]

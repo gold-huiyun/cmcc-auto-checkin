@@ -369,6 +369,19 @@ def parse_prize(mark_result: dict) -> str:
 # ---------------------------------------------------------------- 通知
 
 def notify(cfg: Config, title: str, detail: str):
+    # 青龙面板统一推送：青龙环境自带 notify 模块，可直接 send() 到面板配置的
+    # 微信/钉钉/Telegram/Bark/Server酱等渠道。非青龙环境（本地/CI）无此模块，
+    # 静默跳过，保留下方 Server酱/Bark 直推逻辑，互不冲突。
+    try:
+        from notify import send as ql_send  # 青龙内置推送模块
+    except Exception:
+        ql_send = None
+    if ql_send:
+        try:
+            ql_send(title, detail)
+        except Exception as e:
+            log.warning("[通知] 青龙 notify 发送异常: %s", e)
+
     # 通知域名与签到主站 TLS 要求不同，用独立的直连会话（不走系统代理，避免抓包工具干扰）
     s = requests.Session()
     s.trust_env = False
